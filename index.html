@@ -40,7 +40,7 @@
             }
         }
 
-        /* Make the design responsive for smaller screens */
+        /* Responsive Bubble Sizes */
         @media screen and (max-width: 600px) {
             .bubble {
                 width: 30px;
@@ -62,6 +62,7 @@
             color: #00ffea;
             text-align: center;
             animation: glow 2s infinite;
+            cursor: pointer; /* Changes cursor to pointer for interactivity */
         }
 
         /* Glow Effect */
@@ -93,7 +94,7 @@
         }
 
         /* Editable Text */
-        .funny {
+        .editable-text {
             outline: none;
             border: none;
             background-color: transparent;
@@ -111,11 +112,11 @@
     <div class="bubble" style="top: 50%; left: 70%; width: 80px; height: 80px;"></div>
     <div class="bubble" style="top: 80%; left: 40%;"></div>
     <div class="bubble" style="top: 25%; left: 50%;"></div>
-    <div class="bubble" style="top: 15%; left: 80%;"></div> <!-- New Bubble -->
-    <div class="bubble" style="top: 60%; left: 10%;"></div> <!-- New Bubble -->
+    <div class="bubble" style="top: 15%; left: 80%;"></div>
+    <div class="bubble" style="top: 60%; left: 10%;"></div>
 
     <!-- Glowing Text -->
-    <div class="glowing-text">
+    <div class="glowing-text" onclick="goToURL()">
         <span class="editable-text" contenteditable="true">Editable Glowing Text</span>
     </div>
 
@@ -148,7 +149,7 @@
         // Start the animation when the document is ready
         document.addEventListener('DOMContentLoaded', animateBubbles);
 
-        // Function to navigate to a URL when the button is clicked
+        // Function to navigate to a URL when the button or text is clicked
         function goToURL() {
             let url = prompt("Enter the URL to navigate to:", "https://example.com");
             if (url) {
