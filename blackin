@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informative Squircles with Spinning Cubes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black; /* Black background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            flex-direction: column; /* Align items vertically */
+        }
+
+        .glowing-text {
+            font-size: 3em;
+            font-weight: bold;
+            color: white; /* White text */
+            text-align: center;
+            animation: glow 1.5s infinite; /* Glowing effect */
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px white;
+            }
+
+            50% {
+                text-shadow: 0 0 20px white;
+            }
+
+            100% {
+                text-shadow: 0 0 5px white;
+            }
+        }
+
+        .squircle {
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+            border-radius: 50px; /* Squircle shape */
+            padding: 20px;
+            margin: 20px;
+            width: 300px; /* Width of squircle */
+            text-align: center; /* Center text */
+        }
+
+        .squircle img {
+            width: 100%; /* Full width image */
+            border-radius: 20px; /* Rounded corners for the image */
+        }
+
+        .cube {
+            position: absolute;
+            width: 50px; /* Cube size */
+            height: 50px; /* Cube size */
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent cube */
+            animation: spinCube 5s linear infinite; /* Spinning animation */
+        }
+
+        @keyframes spinCube {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+                opacity: 0.7; /* Slightly transparent while spinning */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glowing-text">
+        Informative Squircles
+    </div>
+
+    <div class="squircle">
+        <img src="https://via.placeholder.com/300" alt="Image One">
+        <h3>Title One</h3>
+        <p>This is some informative text about the first topic.</p>
+    </div>
+
+    <div class="squircle">
+        <img src="https://via.placeholder.com/300" alt="Image Two">
+        <h3>Title Two</h3>
+        <p>This is some informative text about the second topic.</p>
+    </div>
+
+    <div class="squircle">
+        <img src="https://via.placeholder.com/300" alt="Image Three">
+        <h3>Title Three</h3>
+        <p>This is some informative text about the third topic.</p>
+    </div>
+
+    <script>
+        function createCubes() {
+            const numCubes = 5; // Number of cubes
+          
+          for (let i = 0; i < numCubes; i++) {
+              const cube = document.createElement('div');
+              cube.className = 'cube';
+              
+              // Random initial position
+              cube.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+              cube.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+
+              // Random rotation speed
+              const speed = Math.random() * (10 - 5) + 5; // Speed between 5 and 10 seconds
+              cube.style.animationDuration = speed + 's';
+
+              document.body.appendChild(cube);
+          }
+      }
+
+      window.onload = createCubes;
+
+    </script>
+</body>
+
+</html>
