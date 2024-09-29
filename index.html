@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Bubbles with Glowing Text</title>
+    <style>
+        /* Body Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Bubble Styles */
+        .bubble {
+            position: absolute;
+            background-color: #FF6347;
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        /* Keyframes for the float animation */
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        /* Make the design responsive for smaller screens */
+        @media screen and (max-width: 600px) {
+            .bubble {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        @media screen and (min-width: 601px) {
+            .bubble {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Glowing Text */
+        .glowing-text {
+            font-size: 3em;
+            font-weight: bold;
+            color: #00ffea;
+            text-align: center;
+            animation: glow 2s infinite;
+        }
+
+        /* Glow Effect */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 40px #00ffea, 0 0 60px #00ffea; }
+            50% { text-shadow: 0 0 20px #00ffea, 0 0 30px #00ffea, 0 0 50px #00ffea, 0 0 60px #00ffea, 0 0 80px #00ffea; }
+            100% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 40px #00ffea, 0 0 60px #00ffea; }
+        }
+
+        /* Squircle Button */
+        .squircle-btn {
+            background-color: white;
+            color: #282c34;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: absolute;
+            bottom: 20px; /* Position it near the bottom */
+        }
+
+        .squircle-btn:hover {
+            background-color: #00ffea;
+            color: #fff;
+            box-shadow: 0px 8px 20px rgba(0, 255, 234, 0.6);
+        }
+
+        /* Editable Text */
+        .funny {
+            outline: none;
+            border: none;
+            background-color: transparent;
+            color: inherit;
+            font-size: inherit;
+            text-align: center;
+            font-weight: inherit;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bubbles -->
+    <div class="bubble" style="top: 10%; left: 20%;"></div>
+    <div class="bubble" style="top: 50%; left: 70%; width: 80px; height: 80px;"></div>
+    <div class="bubble" style="top: 80%; left: 40%;"></div>
+    <div class="bubble" style="top: 25%; left: 50%;"></div>
+    <div class="bubble" style="top: 15%; left: 80%;"></div> <!-- New Bubble -->
+    <div class="bubble" style="top: 60%; left: 10%;"></div> <!-- New Bubble -->
+
+    <!-- Glowing Text -->
+    <div class="glowing-text">
+        <span class="editable-text" contenteditable="true">Editable Glowing Text</span>
+    </div>
+
+    <!-- Squircle Button -->
+    <div>
+        <button class="squircle-btn" onclick="goToURL()">
+            <span class="editable-text" contenteditable="true">Click Me</span>
+        </button>
+    </div>
+
+    <script>
+        // Function to apply random movement to bubbles
+        function animateBubbles() {
+            const bubbles = document.querySelectorAll('.bubble');
+            bubbles.forEach(bubble => {
+                const randomX = Math.floor(Math.random() * window.innerWidth);
+                const randomY = Math.floor(Math.random() * window.innerHeight);
+
+                bubble.animate([
+                    { transform: `translate(${randomX}px, ${randomY}px)` }
+                ], {
+                    duration: 15000,
+                    direction: 'alternate',
+                    iterations: Infinity,
+                    easing: 'ease-in-out'
+                });
+            });
+        }
+
+        // Start the animation when the document is ready
+        document.addEventListener('DOMContentLoaded', animateBubbles);
+
+        // Function to navigate to a URL when the button is clicked
+        function goToURL() {
+            let url = prompt("Enter the URL to navigate to:", "https://example.com");
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    </script>
+</body>
+</html>
