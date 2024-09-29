@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Floating Bubbles with Glowing Text</title>
     <style>
-        /* Body Styles */
         body {
             margin: 0;
             padding: 0;
@@ -14,89 +13,76 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
             position: relative;
         }
 
-        /* Bubble Styles */
         .bubble {
             position: absolute;
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            animation: float 10s ease-in-out infinite; /* Animation for bubbles */
+            width: 80px;
+            height: 80px;
+            animation: bounce 10s ease-in-out infinite;
         }
 
-        /* Keyframes for the float animation */
-        @keyframes float {
-            0% {
+        @keyframes bounce {
+            0%, 100% {
                 transform: translateY(0) translateX(0);
             }
             25% {
-                transform: translateY(-100px) translateX(30px); /* Move up and slightly to the right */
+                transform: translateY(-150px) translateX(50px);
             }
             50% {
-                transform: translateY(0) translateX(60px); /* Move back down */
+                transform: translateY(0) translateX(100px);
             }
             75% {
-                transform: translateY(100px) translateX(-30px); /* Move down and slightly to the left */
-            }
-            100% {
-                transform: translateY(0) translateX(0); /* Return to the original position */
+                transform: translateY(150px) translateX(-50px);
             }
         }
 
-        /* Responsive Bubble Sizes */
-        .bubble {
-            width: 60px; /* Size for bubbles */
-            height: 60px; /* Size for bubbles */
-        }
-
-        /* Glowing Text */
         .glowing-text {
-            font-size: 3em; /* Size of the glowing text */
+            font-size: 3em;
             font-weight: bold;
             color: #00ffea;
             text-align: center;
-            cursor: pointer; /* Changes cursor to pointer for interactivity */
-            animation: glow 1.5s infinite; /* Smooth glowing effect */
+            cursor: pointer;
+            animation: glow 1.5s infinite;
             position: relative;
-            z-index: 1; /* Ensure it stays above the bubbles */
+            z-index: 1;
         }
 
-        /* Glow Effect */
         @keyframes glow {
             0% { text-shadow: 0 0 5px #00ffea; }
             50% { text-shadow: 0 0 20px #00ffea; }
             100% { text-shadow: 0 0 5px #00ffea; }
         }
 
-        /* Transparent Squircle Below Glowing Text */
         .transparent-squircle {
             position: absolute;
-            bottom: 60px; /* Adjust position */
+            bottom: 60px; 
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50px; /* Squircle shape */
+            border-radius: 50px; 
             padding: 10px;
             text-align: center;
-            z-index: 0; /* Ensure it’s below the glowing text */
+            z-index: 0; 
         }
 
-        /* Squircle Button */
         .squircle-btn {
             background-color: white;
             color: #282c34;
-            padding: 15px 30px; /* Adjust for bigger button */
+            padding: 20px 40px; 
             border-radius: 50px;
             border: none;
-            font-size: 1.5em;
+            font-size: 1.8em; 
             cursor: pointer;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             position: absolute;
-            bottom: 20px; /* Position it near the bottom */
+            bottom: 20px; 
         }
 
         .squircle-btn:hover {
@@ -108,7 +94,6 @@
 </head>
 <body>
 
-    <!-- Bubbles -->
     <div class="bubble" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
     <div class="bubble" style="top: 20%; left: 30%; animation-delay: 1s;"></div>
     <div class="bubble" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
@@ -120,29 +105,48 @@
     <div class="bubble" style="top: 20%; left: 80%; animation-delay: 8s;"></div>
     <div class="bubble" style="top: 50%; left: 40%; animation-delay: 9s;"></div>
 
-    <!-- Glowing Text -->
     <div class="glowing-text" onclick="goToURL()">
         Editable Glowing Text
     </div>
 
-    <!-- Transparent Squircle -->
     <div class="transparent-squircle">
         <span>Transparent Squircle Text</span>
     </div>
 
-    <!-- Squircle Button -->
     <button class="squircle-btn" onclick="goToURL()">
         Click Me
     </button>
 
     <script>
-        // Function to navigate to a URL when the button or text is clicked
         function goToURL() {
             let url = prompt("Enter the URL to navigate to:", "https://example.com");
             if (url) {
                 window.location.href = url;
             }
         }
+
+        function animateBubbles() {
+            const bubbles = document.querySelectorAll('.bubble');
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            bubbles.forEach(bubble => {
+                let dx = Math.random() < 0.5 ? -1 : 1;
+                let dy = Math.random() < 0.5 ? -1 : 1;
+
+                function moveBubble() {
+                    let rect = bubble.getBoundingClientRect();
+                    if (rect.left <= 0 || rect.right >= screenWidth) dx *= -1;
+                    if (rect.top <= 0 || rect.bottom >= screenHeight) dy *= -1;
+
+                    bubble.style.transform = `translate(${dx * (Math.random() * (2 - -2) + -2)}px, ${dy * (Math.random() * (2 - -2) + -2)}px)`;
+                    requestAnimationFrame(moveBubble);
+                }
+                moveBubble();
+            });
+        }
+
+        window.onload = animateBubbles;
     </script>
 </body>
 </html>
