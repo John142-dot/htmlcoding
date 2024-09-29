@@ -36,7 +36,7 @@
             text-align: center;
             cursor: pointer; /* Changes cursor to pointer for interactivity */
             animation: glow 1.5s infinite; /* Smooth glowing effect */
-            position: relative;
+            position: absolute; /* Change to absolute for positioning */
             z-index: 1; /* Ensure it stays above the bubbles */
         }
 
@@ -63,7 +63,7 @@
     <div class="bubble"></div>
 
     <!-- Glowing Text -->
-    <div class="glowing-text" onclick="goToURL()">
+    <div class="glowing-text" onclick="goToURL()" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         Editable Glowing Text
     </div>
 
