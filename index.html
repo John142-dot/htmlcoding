@@ -24,27 +24,6 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            animation: float 10s ease-in-out infinite; /* Animation for bubbles */
-            will-change: transform; /* Optimization for performance */
-        }
-
-        /* Keyframes for the float animation */
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0); /* Start from the bottom */
-            }
-            25% {
-                transform: translateY(-200px) translateX(30px); /* Move up and slightly to the right */
-            }
-            50% {
-                transform: translateY(-50px) translateX(60px); /* Bounce back up */
-            }
-            75% {
-                transform: translateY(100vh) translateX(-30px); /* Move down and slightly to the left */
-            }
-            100% {
-                transform: translateY(100vh) translateX(0); /* Reset to the bottom */
-            }
         }
 
         /* Responsive Bubble Sizes */
@@ -110,16 +89,16 @@
 <body>
 
     <!-- Bubbles -->
-    <div class="bubble" style="left: 10%; animation-delay: 0s;"></div>
-    <div class="bubble" style="left: 30%; animation-delay: 1s;"></div>
-    <div class="bubble" style="left: 50%; animation-delay: 2s;"></div>
-    <div class="bubble" style="left: 70%; animation-delay: 3s;"></div>
-    <div class="bubble" style="left: 90%; animation-delay: 4s;"></div>
-    <div class="bubble" style="left: 20%; animation-delay: 5s;"></div>
-    <div class="bubble" style="left: 40%; animation-delay: 6s;"></div>
-    <div class="bubble" style="left: 60%; animation-delay: 7s;"></div>
-    <div class="bubble" style="left: 80%; animation-delay: 8s;"></div>
-    <div class="bubble" style="left: 40%; animation-delay: 9s;"></div>
+    <div class="bubble" style="left: 10%;"></div>
+    <div class="bubble" style="left: 30%;"></div>
+    <div class="bubble" style="left: 50%;"></div>
+    <div class="bubble" style="left: 70%;"></div>
+    <div class="bubble" style="left: 90%;"></div>
+    <div class="bubble" style="left: 20%;"></div>
+    <div class="bubble" style="left: 40%;"></div>
+    <div class="bubble" style="left: 60%;"></div>
+    <div class="bubble" style="left: 80%;"></div>
+    <div class="bubble" style="left: 40%;"></div>
 
     <!-- Glowing Text -->
     <div class="glowing-text" onclick="goToURL()">
@@ -145,28 +124,40 @@
             }
         }
 
-        // Function to handle bubble animations and bounce effect
+        // Bubble Movement
         const bubbles = document.querySelectorAll('.bubble');
+
         bubbles.forEach(bubble => {
-            bubble.addEventListener('animationiteration', () => {
-                // Randomize vertical position for bounce effect
-                const viewportHeight = window.innerHeight;
-                const bubbleHeight = bubble.offsetHeight;
+            const speed = Math.random() * 2 + 1; // Random speed for each bubble
+            let directionX = (Math.random() < 0.5 ? 1 : -1) * speed; // Random horizontal direction
+            let directionY = (Math.random() < 0.5 ? 1 : -1) * speed; // Random vertical direction
+            let positionX = parseFloat(bubble.style.left);
+            let positionY = Math.random() * window.innerHeight; // Start at a random height
 
-                const randomYPosition = Math.random() * (viewportHeight + bubbleHeight) - bubbleHeight;
-                bubble.style.top = `${randomYPosition}px`;
+            // Function to update bubble position
+            function updateBubble() {
+                positionX += directionX;
+                positionY += directionY;
 
-                // Bounce effect for mobile and desktop
-                const bounceHeight = 150; // Set how high you want the bounce
-                bubble.style.transition = 'transform 0.5s ease-in-out';
-                bubble.style.transform = `translateY(-${bounceHeight}px)`;
-                
-                // Reset the bubble position after bounce
-                setTimeout(() => {
-                    bubble.style.transform = `translateY(0)`;
-                }, 500);
-            });
+                // Bounce off edges
+                if (positionX <= 0 || positionX >= window.innerWidth - 60) {
+                    directionX *= -1; // Reverse horizontal direction
+                }
+                if (positionY <= 0 || positionY >= window.innerHeight - 60) {
+                    directionY *= -1; // Reverse vertical direction
+                }
+
+                // Apply new position
+                bubble.style.left = positionX + 'px';
+                bubble.style.top = positionY + 'px';
+
+                // Call the next frame
+                requestAnimationFrame(updateBubble);
+            }
+
+            // Start the animation
+            updateBubble();
         });
     </script>
 </body>
-        </html>
+</html>
