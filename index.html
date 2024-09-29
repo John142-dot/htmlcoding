@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             align-items: center;
             overflow: hidden;
             position: relative;
+            flex-direction: column; /* Align items vertically */
         }
 
         .bubble {
@@ -38,17 +40,47 @@
         }
 
         @keyframes glow {
-            0% { text-shadow: 0 0 5px #00ffea; }
-            50% { text-shadow: 0 0 20px #00ffea; }
-            100% { text-shadow: 0 0 5px #00ffea; }
+            0% {
+                text-shadow: 0 0 5px #00ffea;
+            }
+
+            50% {
+                text-shadow: 0 0 20px #00ffea;
+            }
+
+            100% {
+                text-shadow: 0 0 5px #00ffea;
+            }
+        }
+
+        .squircle-btn {
+            background-color: red; /* Red color */
+            color: white; /* Text color */
+            padding: 15px 30px;
+            border-radius: 50px; /* Squircle shape */
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Transparent shadow */
+            transition: all 0.3s ease;
+            margin-top: 20px; /* Space between text and button */
+        }
+
+        .squircle-btn:hover {
+            background-color: darkred; /* Darker red on hover */
         }
     </style>
 </head>
+
 <body>
 
     <div class="glowing-text" onclick="goToURL()">
         Editable Glowing Text
     </div>
+
+    <button class="squircle-btn" onclick="goToURL()">
+        Go to URL
+    </button>
 
     <script>
         function goToURL() {
@@ -66,7 +98,7 @@
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
                 document.body.appendChild(bubble);
-                
+
                 // Random initial position
                 bubble.style.left = Math.random() * (window.innerWidth - 100) + 'px';
                 bubble.style.top = Math.random() * (window.innerHeight - 100) + 'px';
@@ -109,4 +141,5 @@
 
     </script>
 </body>
+
 </html>
