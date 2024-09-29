@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floating Bubbles with Glowing Text</title>
+    <title>Bouncing DVD Logo Style Bubbles</title>
     <style>
         body {
             margin: 0;
@@ -19,11 +19,11 @@
 
         .bubble {
             position: absolute;
-            background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            width: 80px;
-            height: 80px;
+            width: 100px; /* Larger bubble size */
+            height: 100px; /* Larger bubble size */
+            background-color: #FF6347; /* Bubble color */
         }
 
         .glowing-text {
@@ -42,64 +42,13 @@
             50% { text-shadow: 0 0 20px #00ffea; }
             100% { text-shadow: 0 0 5px #00ffea; }
         }
-
-        .transparent-squircle {
-            position: absolute;
-            bottom: 60px; 
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50px; 
-            padding: 10px;
-            text-align: center;
-            z-index: 0; 
-        }
-
-        .squircle-btn {
-            background-color: white;
-            color: #282c34;
-            padding: 20px 40px; 
-            border-radius: 50px;
-            border: none;
-            font-size: 1.8em; 
-            cursor: pointer;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: absolute;
-            bottom: 20px; 
-        }
-
-        .squircle-btn:hover {
-            background-color: #00ffea;
-            color: #fff;
-            box-shadow: 0px 8px 20px rgba(0, 255, 234, 0.6);
-        }
     </style>
 </head>
 <body>
 
-    <div class="bubble" style="top: 10%; left: 10%;"></div>
-    <div class="bubble" style="top: 20%; left: 30%;"></div>
-    <div class="bubble" style="top: 30%; left: 50%;"></div>
-    <div class="bubble" style="top: 40%; left: 70%;"></div>
-    <div class="bubble" style="top: 50%; left: 90%;"></div>
-    <div class="bubble" style="top: 60%; left: 20%;"></div>
-    <div class="bubble" style="top: 70%; left: 40%;"></div>
-    <div class="bubble" style="top: 80%; left: 60%;"></div>
-    <div class="bubble" style="top: 20%; left: 80%;"></div>
-    <div class="bubble" style="top: 50%; left: 40%;"></div>
-
     <div class="glowing-text" onclick="goToURL()">
         Editable Glowing Text
     </div>
-
-    <div class="transparent-squircle">
-        <span>Transparent Squircle Text</span>
-    </div>
-
-    <button class="squircle-btn" onclick="goToURL()">
-        Click Me
-    </button>
 
     <script>
         function goToURL() {
@@ -109,31 +58,55 @@
             }
         }
 
-        function animateBubbles() {
-            const bubbles = document.querySelectorAll('.bubble');
-            
-            bubbles.forEach(bubble => {
-                let posX = Math.random() * window.innerWidth;
-                let posY = Math.random() * window.innerHeight;
+        function createBubbles() {
+            const numBubbles = 10; // Number of bubbles
+            const bubbles = [];
 
-                let velocityX = (Math.random() - 0.5) * (2); // Adjust speed
-                let velocityY = (Math.random() - 0.5) * (2);
+            for (let i = 0; i < numBubbles; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                document.body.appendChild(bubble);
+                
+                // Random initial position
+                bubble.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+                bubble.style.top = Math.random() * (window.innerHeight - 100) + 'px';
 
-                function moveBubble() {
-                    posX += velocityX;
-                    posY += velocityY;
+                // Random velocity
+                bubble.velocityX = (Math.random() - 0.5) * 4; // Speed in X direction
+                bubble.velocityY = (Math.random() - 0.5) * 4; // Speed in Y direction
 
-                    if (posX <= -80 || posX >= window.innerWidth) velocityX *= -1; // Reverse direction on X
-                    if (posY <= -80 || posY >= window.innerHeight) velocityY *= -1; // Reverse direction on Y
-
-                    bubble.style.transform = `translate(${posX}px, ${posY}px)`;
-                    requestAnimationFrame(moveBubble);
-                }
-                moveBubble();
-            });
+                bubbles.push(bubble);
+                animateBubble(bubble);
+            }
         }
 
-        window.onload = animateBubbles;
+        function animateBubble(bubble) {
+            function moveBubble() {
+                let posX = parseFloat(bubble.style.left);
+                let posY = parseFloat(bubble.style.top);
+
+                // Update position
+                posX += bubble.velocityX;
+                posY += bubble.velocityY;
+
+                // Bounce off edges
+                if (posX <= 0 || posX >= window.innerWidth - 100) {
+                    bubble.velocityX *= -1; // Reverse direction on X
+                }
+                if (posY <= 0 || posY >= window.innerHeight - 100) {
+                    bubble.velocityY *= -1; // Reverse direction on Y
+                }
+
+                bubble.style.left = posX + 'px';
+                bubble.style.top = posY + 'px';
+
+                requestAnimationFrame(moveBubble);
+            }
+            moveBubble();
+        }
+
+        window.onload = createBubbles;
+
     </script>
 </body>
 </html>
