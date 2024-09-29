@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draggable Bubbles with Informative Squircles</title>
+    <title>Informative Squircles with Spinning Cubes</title>
     <style>
         body {
             margin: 0;
@@ -45,15 +45,6 @@
             }
         }
 
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            width: 80px; /* Bubble size */
-            height: 80px; /* Bubble size */
-            background-color: rgba(255, 255, 255, 0.5); /* Transparent bubble */
-            cursor: pointer; /* Pointer cursor on hover */
-        }
-
         .squircle {
             background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
             border-radius: 50px; /* Squircle shape */
@@ -67,13 +58,33 @@
             width: 100%; /* Full width image */
             border-radius: 20px; /* Rounded corners for the image */
         }
+
+        .cube {
+            position: absolute;
+            width: 50px; /* Cube size */
+            height: 50px; /* Cube size */
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent cube */
+            animation: spinCube 5s linear infinite; /* Spinning animation */
+        }
+
+        @keyframes spinCube {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+                opacity: 1;
+            }
+            
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+                opacity: 0.7; /* Slightly transparent while spinning */
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div class="glowing-text">
-        Draggable Bubbles and Informative Squircles
+        Informative Squircles
     </div>
 
     <div class="squircle">
@@ -94,14 +105,9 @@
         <p>This is some informative text about the third topic.</p>
     </div>
 
-    <!-- Bubbles -->
-    <div class="bubble" style="top: 100px; left: 100px;"></div>
-    <div class="bubble" style="top: 200px; left: 300px;"></div>
-    <div class="bubble" style="top: 300px; left: 500px;"></div>
-
     <script>
         function createCubes() {
-          const numCubes = 5; // Number of cubes
+            const numCubes = 5; // Number of cubes
           
           for (let i = 0; i < numCubes; i++) {
               const cube = document.createElement('div');
@@ -119,51 +125,8 @@
           }
       }
 
-      function makeBubblesDraggable() {
-          const bubbles =       function makeBubblesDraggable() {
-          const bubbles = document.querySelectorAll('.bubble');
-
-          bubbles.forEach(bubble => {
-              bubble.addEventListener('mousedown', startDrag);
-              bubble.addEventListener('touchstart', startDrag); // For touch devices
-          });
-
-          function startDrag(e) {
-              const bubble = e.target;
-              let shiftX = e.clientX - bubble.getBoundingClientRect().left;
-              let shiftY = e.clientY - bubble.getBoundingClientRect().top;
-
-              function moveAt(pageX, pageY) {
-                  bubble.style.left = pageX - shiftX + 'px';
-                  bubble.style.top = pageY - shiftY + 'px';
-              }
-
-              function onMouseMove(e) {
-                  moveAt(e.pageX, e.pageY);
-              }
-
-              function onTouchMove(e) {
-                  moveAt(e.touches[0].pageX, e.touches[0].pageY);
-              }
-
-              document.addEventListener('mousemove', onMouseMove);
-              document.addEventListener('touchmove', onTouchMove);
-
-              bubble.onmouseup = function() {
-                  document.removeEventListener('mousemove', onMouseMove);
-                  bubble.onmouseup = null;
-              };
-
-              bubble.ontouchend = function() {
-                  document.removeEventListener('touchmove', onTouchMove);
-                  bubble.ontouchend = null;
-              };
-          }
-      }
-
       window.onload = function() {
           createCubes();
-          makeBubblesDraggable();
           document.body.classList.add('fade-in'); // Add fade-in class to body
       };
 
