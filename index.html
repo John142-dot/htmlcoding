@@ -25,24 +25,25 @@
             border-radius: 50%;
             opacity: 0.7;
             animation: float 10s ease-in-out infinite; /* Animation for bubbles */
+            will-change: transform; /* Optimization for performance */
         }
 
         /* Keyframes for the float animation */
         @keyframes float {
             0% {
-                transform: translateY(0) translateX(0);
+                transform: translateY(100vh) translateX(0); /* Start from the bottom */
             }
             25% {
                 transform: translateY(-100px) translateX(30px); /* Move up and slightly to the right */
             }
             50% {
-                transform: translateY(0) translateX(60px); /* Move back down */
+                transform: translateY(100vh) translateX(60px); /* Move back down */
             }
             75% {
-                transform: translateY(100px) translateX(-30px); /* Move down and slightly to the left */
+                transform: translateY(100vh) translateX(-30px); /* Move down and slightly to the left */
             }
             100% {
-                transform: translateY(0) translateX(0); /* Return to the original position */
+                transform: translateY(100vh) translateX(0); /* Reset to the bottom */
             }
         }
 
@@ -109,16 +110,16 @@
 <body>
 
     <!-- Bubbles -->
-    <div class="bubble" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
-    <div class="bubble" style="top: 20%; left: 30%; animation-delay: 1s;"></div>
-    <div class="bubble" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
-    <div class="bubble" style="top: 40%; left: 70%; animation-delay: 3s;"></div>
-    <div class="bubble" style="top: 50%; left: 90%; animation-delay: 4s;"></div>
-    <div class="bubble" style="top: 60%; left: 20%; animation-delay: 5s;"></div>
-    <div class="bubble" style="top: 70%; left: 40%; animation-delay: 6s;"></div>
-    <div class="bubble" style="top: 80%; left: 60%; animation-delay: 7s;"></div>
-    <div class="bubble" style="top: 20%; left: 80%; animation-delay: 8s;"></div>
-    <div class="bubble" style="top: 50%; left: 40%; animation-delay: 9s;"></div>
+    <div class="bubble" style="top: 100vh; left: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="top: 100vh; left: 30%; animation-delay: 1s;"></div>
+    <div class="bubble" style="top: 100vh; left: 50%; animation-delay: 2s;"></div>
+    <div class="bubble" style="top: 100vh; left: 70%; animation-delay: 3s;"></div>
+    <div class="bubble" style="top: 100vh; left: 90%; animation-delay: 4s;"></div>
+    <div class="bubble" style="top: 100vh; left: 20%; animation-delay: 5s;"></div>
+    <div class="bubble" style="top: 100vh; left: 40%; animation-delay: 6s;"></div>
+    <div class="bubble" style="top: 100vh; left: 60%; animation-delay: 7s;"></div>
+    <div class="bubble" style="top: 100vh; left: 80%; animation-delay: 8s;"></div>
+    <div class="bubble" style="top: 100vh; left: 40%; animation-delay: 9s;"></div>
 
     <!-- Glowing Text -->
     <div class="glowing-text" onclick="goToURL()">
@@ -145,4 +146,4 @@
         }
     </script>
 </body>
-        </html>
+</html>
