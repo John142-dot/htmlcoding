@@ -4,131 +4,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informative Squircles with Spinning Cubes</title>
+    <title>Bouncing DVD Logo Style Bubbles</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: black; /* Black background */
-            color: white;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            opacity: 0; /* Start hidden for fade-in effect */
-            transition: opacity 1s ease-in; /* Fade-in transition */
+            overflow: hidden;
+            position: relative;
+            flex-direction: column; /* Align items vertically */
         }
 
-        .fade-in {
-            opacity: 1; /* Fully visible after fade-in */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            width: 100px; /* Larger bubble size */
+            height: 100px; /* Larger bubble size */
+            background-color: #FF6347; /* Bubble color */
         }
 
         .glowing-text {
             font-size: 3em;
             font-weight: bold;
-            color: white; /* White text */
+            color: #00ffea;
             text-align: center;
-            animation: glow 1.5s infinite; /* Glowing effect */
+            cursor: pointer;
+            animation: glow 1.5s infinite;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes glow {
             0% {
-                text-shadow: 0 0 5px white;
+                text-shadow: 0 0 5px #00ffea;
             }
 
             50% {
-                text-shadow: 0 0 20px white;
+                text-shadow: 0 0 20px #00ffea;
             }
 
             100% {
-                text-shadow: 0 0 5px white;
+                text-shadow: 0 0 5px #00ffea;
             }
         }
 
-        .squircle {
-            background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+        .squircle-btn {
+            background-color: red; /* Red color */
+            color: white; /* Text color */
+            padding: 15px 30px;
             border-radius: 50px; /* Squircle shape */
-            padding: 20px;
-            margin: 20px;
-            width: 300px; /* Width of squircle */
-            text-align: center; /* Center text */
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Transparent shadow */
+            transition: all 0.3s ease;
+            margin-top: 20px; /* Space between text and button */
         }
 
-        .squircle img {
-            width: 100%; /* Full width image */
-            border-radius: 20px; /* Rounded corners for the image */
-        }
-
-        .cube {
-            position: absolute;
-            width: 50px; /* Cube size */
-            height: 50px; /* Cube size */
-            background-color: rgba(255, 255, 255, 0.5); /* Transparent cube */
-            animation: spinCube 5s linear infinite; /* Spinning animation */
-        }
-
-        @keyframes spinCube {
-            from {
-                transform: rotateX(0deg) rotateY(0deg);
-                opacity: 1;
-            }
-            
-            to {
-                transform: rotateX(360deg) rotateY(360deg);
-                opacity: 0.7; /* Slightly transparent while spinning */
-            }
+        .squircle-btn:hover {
+            background-color: darkred; /* Darker red on hover */
         }
     </style>
 </head>
 
 <body>
 
-    <div class="glowing-text">
-        Informative Squircles
+    <div class="glowing-text" onclick="goToURL()">
+        Editable Glowing Text
     </div>
 
-    <div class="squircle">
-        <img src="https://via.placeholder.com/300" alt="Image One">
-        <h3>Title One</h3>
-        <p>This is some informative text about the first topic.</p>
-    </div>
-
-    <div class="squircle">
-        <img src="https://via.placeholder.com/300" alt="Image Two">
-        <h3>Title Two</h3>
-        <p>This is some informative text about the second topic.</p>
-    </div>
-
-    <div class="squircle">
-        <img src="https://via.placeholder.com/300" alt="Image Three">
-        <h3>Title Three</h3>
-        <p>This is some informative text about the third topic.</p>
-    </div>
+    <button class="squircle-btn" onclick="goToURL()">
+        Go to URL
+    </button>
 
     <script>
-        function createCubes() {
-            const numCubes = 5; // Number of cubes
-          
-          for (let i = 0; i < numCubes; i++) {
-              const cube = document.createElement('div');
-              cube.className = 'cube';
-              
-              // Random initial position
-              cube.style.left = Math.random() * (window.innerWidth - 50) + 'px';
-              cube.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        function goToURL() {
+            let url = prompt("Enter the URL to navigate to:", "https://example.com");
+            if (url) {
+                window.location.href = url;
+            }
+        }
 
-              // Random rotation speed
-              const speed = Math.random() * (10 - 5) + 5; // Speed between 5 and 10 seconds
-              cube.style.animationDuration = speed + 's';
+        function createBubbles() {
+            const numBubbles = 10; // Number of bubbles
+            const bubbles = [];
 
-              document.body.appendChild(cube);
-          }
-      }
+            for (let i = 0; i < numBubbles; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                document.body.appendChild(bubble);
 
-      window.onload = function() {
-          createCubes();
-          document.body.classList.add('fade-in'); // Add fade-in class to body
-      };
+                // Random initial position
+                bubble.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+                bubble.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+
+                // Random velocity
+                bubble.velocityX = (Math.random() - 0.5) * 4; // Speed in X direction
+                bubble.velocityY = (Math.random() - 0.5) * 4; // Speed in Y direction
+
+                bubbles.push(bubble);
+                animateBubble(bubble);
+            }
+        }
+
+        function animateBubble(bubble) {
+            function moveBubble() {
+                let posX = parseFloat(bubble.style.left);
+                let posY = parseFloat(bubble.style.top);
+
+                // Update position
+                posX += bubble.velocityX;
+                posY += bubble.velocityY;
+
+                // Bounce off edges
+                if (posX <= 0 || posX >= window.innerWidth - 100) {
+                    bubble.velocityX *= -1; // Reverse direction on X
+                }
+                if (posY <= 0 || posY >= window.innerHeight - 100) {
+                    bubble.velocityY *= -1; // Reverse direction on Y
+                }
+
+                bubble.style.left = posX + 'px';
+                bubble.style.top = posY + 'px';
+
+                requestAnimationFrame(moveBubble);
+            }
+            moveBubble();
+        }
+
+        window.onload = createBubbles;
 
     </script>
 </body>
