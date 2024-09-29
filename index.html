@@ -24,96 +24,29 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-        }
-
-        /* Responsive Bubble Sizes */
-        .bubble {
             width: 60px; /* Size for bubbles */
             height: 60px; /* Size for bubbles */
-        }
-
-        /* Glowing Text */
-        .glowing-text {
-            font-size: 3em; /* Size of the glowing text */
-            font-weight: bold;
-            color: #00ffea;
-            text-align: center;
-            cursor: pointer; /* Changes cursor to pointer for interactivity */
-            animation: glow 1.5s infinite; /* Smooth glowing effect */
-            position: relative;
-            z-index: 1; /* Ensure it stays above the bubbles */
-        }
-
-        /* Glow Effect */
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #00ffea; }
-            50% { text-shadow: 0 0 20px #00ffea; }
-            100% { text-shadow: 0 0 5px #00ffea; }
-        }
-
-        /* Transparent Squircle Below Glowing Text */
-        .transparent-squircle {
-            position: absolute;
-            bottom: 60px; /* Adjust position */
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50px; /* Squircle shape */
-            padding: 10px;
-            text-align: center;
-            z-index: 0; /* Ensure it’s below the glowing text */
-        }
-
-        /* Squircle Button */
-        .squircle-btn {
-            background-color: white;
-            color: #282c34;
-            padding: 15px 30px; /* Adjust for bigger button */
-            border-radius: 50px;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: absolute;
-            bottom: 20px; /* Position it near the bottom */
-        }
-
-        .squircle-btn:hover {
-            background-color: #00ffea;
-            color: #fff;
-            box-shadow: 0px 8px 20px rgba(0, 255, 234, 0.6);
         }
     </style>
 </head>
 <body>
 
     <!-- Bubbles -->
-    <div class="bubble" style="left: 10%;"></div>
-    <div class="bubble" style="left: 30%;"></div>
-    <div class="bubble" style="left: 50%;"></div>
-    <div class="bubble" style="left: 70%;"></div>
-    <div class="bubble" style="left: 90%;"></div>
-    <div class="bubble" style="left: 20%;"></div>
-    <div class="bubble" style="left: 40%;"></div>
-    <div class="bubble" style="left: 60%;"></div>
-    <div class="bubble" style="left: 80%;"></div>
-    <div class="bubble" style="left: 40%;"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
 
     <!-- Glowing Text -->
     <div class="glowing-text" onclick="goToURL()">
         Editable Glowing Text
     </div>
-
-    <!-- Transparent Squircle -->
-    <div class="transparent-squircle">
-        <span>Transparent Squircle Text</span>
-    </div>
-
-    <!-- Squircle Button -->
-    <button class="squircle-btn" onclick="goToURL()">
-        Click Me
-    </button>
 
     <script>
         // Function to navigate to a URL when the button or text is clicked
@@ -124,39 +57,42 @@
             }
         }
 
-        // Bubble Movement
         const bubbles = document.querySelectorAll('.bubble');
 
+        // Function to create random speed and direction
+        function getRandomDirection() {
+            return {
+                x: Math.random() < 0.5 ? -1 : 1,
+                y: Math.random() < 0.5 ? -1 : 1,
+                speed: 1 + Math.random() * 2 // Random speed
+            };
+        }
+
+        // Initialize bubbles with random directions
         bubbles.forEach(bubble => {
-            const speed = Math.random() * 2 + 1; // Random speed for each bubble
-            let directionX = (Math.random() < 0.5 ? 1 : -1) * speed; // Random horizontal direction
-            let directionY = (Math.random() < 0.5 ? 1 : -1) * speed; // Random vertical direction
-            let positionX = parseFloat(bubble.style.left);
-            let positionY = Math.random() * window.innerHeight; // Start at a random height
+            const direction = getRandomDirection();
+            let bubbleX = Math.random() * window.innerWidth;
+            let bubbleY = Math.random() * window.innerHeight;
 
-            // Function to update bubble position
-            function updateBubble() {
-                positionX += directionX;
-                positionY += directionY;
+            function animateBubble() {
+                // Update position
+                bubbleX += direction.x * direction.speed;
+                bubbleY += direction.y * direction.speed;
 
-                // Bounce off edges
-                if (positionX <= 0 || positionX >= window.innerWidth - 60) {
-                    directionX *= -1; // Reverse horizontal direction
+                // Check for collisions with the edges and bounce
+                if (bubbleX <= 0 || bubbleX >= window.innerWidth - 60) {
+                    direction.x *= -1; // Reverse X direction
                 }
-                if (positionY <= 0 || positionY >= window.innerHeight - 60) {
-                    directionY *= -1; // Reverse vertical direction
+                if (bubbleY <= 0 || bubbleY >= window.innerHeight - 60) {
+                    direction.y *= -1; // Reverse Y direction
                 }
 
                 // Apply new position
-                bubble.style.left = positionX + 'px';
-                bubble.style.top = positionY + 'px';
+                bubble.style.transform = `translate(${bubbleX}px, ${bubbleY}px)`;
 
-                // Call the next frame
-                requestAnimationFrame(updateBubble);
+                requestAnimationFrame(animateBubble);
             }
-
-            // Start the animation
-            updateBubble();
+            animateBubble();
         });
     </script>
 </body>
