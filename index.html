@@ -24,143 +24,31 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            animation: float 10s ease-in-out infinite; /* Adjusted for performance */
-        }
-
-        /* Keyframes for the float animation */
-        @keyframes float {
-            0% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-100px) translateX(20px);
-            }
-            100% {
-                transform: translateY(0) translateX(0);
-            }
-        }
-
-        /* Responsive Bubble Sizes */
-        .bubble {
-            width: 60px; /* Larger size for bubbles */
-            height: 60px; /* Larger size for bubbles */
-        }
-
-        /* Glowing Text */
-        .glowing-text {
-            font-size: 3em; /* Size of the glowing text */
-            font-weight: bold;
-            color: #00ffea;
-            text-align: center;
-            cursor: pointer; /* Changes cursor to pointer for interactivity */
-            animation: glow 1.5s infinite; /* Smooth glowing effect */
-            position: relative;
-            z-index: 1; /* Ensure it stays above the bubbles */
-        }
-
-        /* Glow Effect */
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #00ffea; }
-            50% { text-shadow: 0 0 20px #00ffea; }
-            100% { text-shadow: 0 0 5px #00ffea; }
-        }
-
-        /* Transparent Squircle */
-        .transparent-squircle {
-            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent */
-            border-radius: 50px;
-            padding: 10px 20px;
-            position: absolute;
-            top: 40%; /* Adjust position below glowing text */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0; /* Ensure it's below the glowing text */
-        }
-
-        /* Squircle Button */
-        .squircle-btn {
-            background-color: white;
-            color: #282c34;
-            padding: 15px 30px; /* Increased padding for size */
-            border-radius: 50px;
-            border: none;
-            font-size: 1.2em;
-            cursor: pointer;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: absolute;
-            bottom: 20px; /* Position it near the bottom */
-            z-index: 1; /* Ensure it stays above other elements */
-        }
-
-        .squircle-btn:hover {
-            background-color: #00ffea;
-            color: #fff;
-            box-shadow: 0px 8px 20px rgba(0, 255, 234, 0.6);
-        }
-
-        /* Editable Text */
-        .editable-text {
-            outline: none;
-            border: none;
-            background-color: transparent;
-            color: inherit;
-            font-size: inherit;
-            text-align: center;
-            font-weight: inherit;
+            width: 60px; /* Size for bubbles */
+            height: 60px; /* Size for bubbles */
         }
     </style>
 </head>
 <body>
 
     <!-- Bubbles -->
-    <div class="bubble" style="top: 10%; left: 20%;"></div>
-    <div class="bubble" style="top: 15%; left: 50%;"></div>
-    <div class="bubble" style="top: 30%; left: 70%;"></div>
-    <div class="bubble" style="top: 40%; left: 30%;"></div>
-    <div class="bubble" style="top: 50%; left: 60%;"></div>
-    <div class="bubble" style="top: 70%; left: 80%;"></div>
-    <div class="bubble" style="top: 80%; left: 40%;"></div>
-    <div class="bubble" style="top: 60%; left: 10%;"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
 
     <!-- Glowing Text -->
     <div class="glowing-text" onclick="goToURL()">
-        <span class="editable-text" contenteditable="true">Editable Glowing Text</span>
-    </div>
-
-    <!-- Transparent Squircle -->
-    <div class="transparent-squircle">
-        <span class="editable-text" contenteditable="true">Transparent Text</span>
-    </div>
-
-    <!-- Squircle Button -->
-    <div>
-        <button class="squircle-btn" onclick="goToURL()">
-            <span class="editable-text" contenteditable="true">Click Me</span>
-        </button>
+        Editable Glowing Text
     </div>
 
     <script>
-        // Function to apply random movement to bubbles
-        function animateBubbles() {
-            const bubbles = document.querySelectorAll('.bubble');
-            bubbles.forEach(bubble => {
-                bubble.animate([
-                    { transform: `translateY(0)` },
-                    { transform: `translateY(-100px)` },
-                    { transform: `translateY(0)` }
-                ], {
-                    duration: 10000,
-                    direction: 'alternate',
-                    iterations: Infinity,
-                    easing: 'ease-in-out'
-                });
-            });
-        }
-
-        // Start the animation when the document is ready
-        document.addEventListener('DOMContentLoaded', animateBubbles);
-
         // Function to navigate to a URL when the button or text is clicked
         function goToURL() {
             let url = prompt("Enter the URL to navigate to:", "https://example.com");
@@ -168,6 +56,44 @@
                 window.location.href = url;
             }
         }
+
+        const bubbles = document.querySelectorAll('.bubble');
+
+        // Function to create random speed and direction
+        function getRandomDirection() {
+            return {
+                x: Math.random() < 0.5 ? -1 : 1,
+                y: Math.random() < 0.5 ? -1 : 1,
+                speed: 1 + Math.random() * 2 // Random speed
+            };
+        }
+
+        // Initialize bubbles with random directions
+        bubbles.forEach(bubble => {
+            const direction = getRandomDirection();
+            let bubbleX = Math.random() * window.innerWidth;
+            let bubbleY = Math.random() * window.innerHeight;
+
+            function animateBubble() {
+                // Update position
+                bubbleX += direction.x * direction.speed;
+                bubbleY += direction.y * direction.speed;
+
+                // Check for collisions with the edges and bounce
+                if (bubbleX <= 0 || bubbleX >= window.innerWidth - 60) {
+                    direction.x *= -1; // Reverse X direction
+                }
+                if (bubbleY <= 0 || bubbleY >= window.innerHeight - 60) {
+                    direction.y *= -1; // Reverse Y direction
+                }
+
+                // Apply new position
+                bubble.style.transform = `translate(${bubbleX}px, ${bubbleY}px)`;
+
+                requestAnimationFrame(animateBubble);
+            }
+            animateBubble();
+        });
     </script>
 </body>
 </html>
