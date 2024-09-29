@@ -24,8 +24,27 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            width: 60px; /* Size for bubbles */
-            height: 60px; /* Size for bubbles */
+            width: 80px; /* Increased size for bubbles */
+            height: 80px; /* Increased size for bubbles */
+        }
+
+        /* Glowing Text */
+        .glowing-text {
+            font-size: 3em; /* Size of the glowing text */
+            font-weight: bold;
+            color: #00ffea;
+            text-align: center;
+            cursor: pointer; /* Changes cursor to pointer for interactivity */
+            animation: glow 1.5s infinite; /* Smooth glowing effect */
+            position: relative;
+            z-index: 1; /* Ensure it stays above the bubbles */
+        }
+
+        /* Glow Effect */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #00ffea; }
+            50% { text-shadow: 0 0 20px #00ffea; }
+            100% { text-shadow: 0 0 5px #00ffea; }
         }
     </style>
 </head>
@@ -64,7 +83,7 @@
             return {
                 x: Math.random() < 0.5 ? -1 : 1,
                 y: Math.random() < 0.5 ? -1 : 1,
-                speed: 1 + Math.random() * 2 // Random speed
+                speed: 0.5 + Math.random() * 1.5 // Slower random speed
             };
         }
 
@@ -80,10 +99,10 @@
                 bubbleY += direction.y * direction.speed;
 
                 // Check for collisions with the edges and bounce
-                if (bubbleX <= 0 || bubbleX >= window.innerWidth - 60) {
+                if (bubbleX <= 0 || bubbleX >= window.innerWidth - 80) {
                     direction.x *= -1; // Reverse X direction
                 }
-                if (bubbleY <= 0 || bubbleY >= window.innerHeight - 60) {
+                if (bubbleY <= 0 || bubbleY >= window.innerHeight - 80) {
                     direction.y *= -1; // Reverse Y direction
                 }
 
