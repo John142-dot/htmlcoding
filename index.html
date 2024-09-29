@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sigma</title>
+    <title>Floating Bubbles with Glowing Text</title>
     <style>
         /* Body Styles */
         body {
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            height: 200vh; /* Increased height to enable scrolling */
+            height: 100vh; /* Full height for a single screen */
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Prevent horizontal scrolling */
+            overflow: hidden; /* Prevent scrolling */
             position: relative;
             flex-direction: column; /* Stack elements vertically */
             transition: background 0.5s ease; /* Smooth background transition */
@@ -26,25 +26,19 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            animation: float 10s ease-in-out infinite; /* Animation for bubbles */
+            animation: float 8s ease-in-out infinite; /* Smooth float effect */
         }
 
         /* Keyframes for the float animation */
         @keyframes float {
             0% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-100px) translateX(30px); /* Move up and slightly to the right */
+                transform: translateY(0);
             }
             50% {
-                transform: translateY(0) translateX(60px); /* Move back down */
-            }
-            75% {
-                transform: translateY(100px) translateX(-30px); /* Move down and slightly to the left */
+                transform: translateY(-100vh); /* Move to the top of the screen */
             }
             100% {
-                transform: translateY(0) translateX(0); /* Return to the original position */
+                transform: translateY(0); /* Return to the bottom */
             }
         }
 
@@ -61,107 +55,79 @@
             color: #00ffea;
             text-align: center;
             cursor: pointer; /* Changes cursor to pointer for interactivity */
-            animation: glow 1.5s infinite; /* Smooth glowing effect */
-            z-index: 1; /* Ensure it stays above the bubbles */
-            margin: 20px 0; /* Space around the glowing text */
+            animation: glow 1.5s infinite; /* Glow animation */
+            margin-bottom: 20px; /* Space below the text */
         }
 
         /* Glow Effect */
         @keyframes glow {
-            0% { text-shadow: 0 0 5px #00ffea; }
-            50% { text-shadow: 0 0 20px #00ffea; }
-            100% { text-shadow: 0 0 5px #00ffea; }
+            0% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #00ffea; }
+            50% { text-shadow: 0 0 20px #00ffea, 0 0 30px #00ffea, 0 0 50px #00ffea; }
+            100% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #00ffea; }
         }
 
-        /* Squircles Styles */
+        /* Squircles */
         .squircle {
-            width: 150px;
-            height: 70px;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: white;
+            color: #282c34;
+            padding: 10px;
             border-radius: 20px; /* Rounded corners */
             border: 2px solid red; /* Red outline */
+            text-align: center;
+            width: 200px; /* Width of squircles */
+            height: 60px; /* Height of squircles */
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin: 10px; /* Space between squircles */
+            justify-content: center;
             position: relative;
-            z-index: 1; /* Ensure squircles are above bubbles */
-            text-align: center; /* Center text */
+            margin: 10px 0; /* Margin between squircles */
         }
 
-        /* Squircles Text */
-        .squircle-text {
-            font-size: 1.2em; /* Text size inside squircles */
-            color: #282c34; /* Text color */
+        /* Fade Effect for Scroll */
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
         }
 
-        /* Image inside the squircles */
-        .squircle img {
-            max-width: 30%; /* Image responsiveness */
-            max-height: 30%; /* Image responsiveness */
-            margin-right: 10px; /* Space between image and text */
+        /* For Bubbles at the Top and Bottom */
+        .bubble {
+            animation: bubble-float 10s linear infinite;
         }
 
-        /* Fade effect for the body background */
-        body.faded {
-            background: rgba(30, 144, 255, 0.7); /* Darkened background on scroll */
+        @keyframes bubble-float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100vh); } /* Move to the top of the screen */
         }
     </style>
 </head>
 <body>
-    <div class="glowing-text">Zonkey</div>
 
-    <!-- Squircles with Images and Text -->
-    <div class="squircle">
-        <img src="https://s2.ezgif.com/tmp/ezgif-2-617f3fa81a.jpg" alt="Image 1">
-        <div class="squircle-text">Lua Coder</div>
-    </div>
-    <div class="squircle">
-        <img src="https://via.placeholder.com/50" alt="Image 2">
-        <div class="squircle-text">Troll Hub Creator</div>
-    </div>
+    <!-- Squircles Above Glowing Text -->
+    <div class="squircle">Script maker</div>
+    <div class="squircle">Lua coder</div>
+    
+    <!-- Glowing Text -->
+    <div class="glowing-text" onclick="window.location.href='https://yoururl.com'">Click for more</div>
 
-    <!-- Bubbles Below -->
-    <div class="bubbles-container">
-        <div class="bubble" style="top: 60%; left: 10%; animation-delay: 0s;"></div>
-        <div class="bubble" style="top: 70%; left: 20%; animation-delay: 0.5s;"></div>
-        <div class="bubble" style="top: 65%; left: 30%; animation-delay: 1s;"></div>
-        <div class="bubble" style="top: 80%; left: 40%; animation-delay: 1.5s;"></div>
-        <div class="bubble" style="top: 75%; left: 50%; animation-delay: 2s;"></div>
-        <div class="bubble" style="top: 70%; left: 60%; animation-delay: 2.5s;"></div>
-        <div class="bubble" style="top: 85%; left: 70%; animation-delay: 3s;"></div>
-        <div class="bubble" style="top: 80%; left: 80%; animation-delay: 3.5s;"></div>
-        <div class="bubble" style="top: 90%; left: 90%; animation-delay: 4s;"></div>
-        <div class="bubble" style="top: 85%; left: 100%; animation-delay: 4.5s;"></div>
-    </div>
+    <!-- Bubbles -->
+    <div class="bubble" style="top: 0; left: 10%;"></div>
+    <div class="bubble" style="top: 0; left: 30%;"></div>
+    <div class="bubble" style="top: 0; left: 50%;"></div>
+    <div class="bubble" style="top: 0; left: 70%;"></div>
+    <div class="bubble" style="top: 0; left: 90%;"></div>
+    <div class="bubble" style="bottom: 0; left: 10%;"></div>
+    <div class="bubble" style="bottom: 0; left: 30%;"></div>
+    <div class="bubble" style="bottom: 0; left: 50%;"></div>
+    <div class="bubble" style="bottom: 0; left: 70%;"></div>
+    <div class="bubble" style="bottom: 0; left: 90%;"></div>
 
-    <script>
-        // JavaScript for dynamic bubble movement
-        const bubbleCount = 10; // Total number of bubbles
-        const bubbleContainer = document.querySelector('.bubbles-container');
-
-        for (let i = 0; i < bubbleCount; i++) {
-            const bubble = document.createElement('div');
-            bubble.classList.add('bubble');
-            bubble.style.left = `${Math.random() * 100}vw`;
-            bubble.style.animationDelay = `${Math.random() * 5}s`; // Random delay for each bubble
-            bubbleContainer.appendChild(bubble);
-        }
-
-        // Fade effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const maxScroll = document.body.scrollHeight - window.innerHeight;
-            const opacity = 1 - (scrollTop / maxScroll);
-            document.body.style.backgroundColor = `rgba(30, 144, 255, ${opacity})`; // Darkens background
-
-            // Add class to body for fade effect
-            if (scrollTop > 0) {
-                document.body.classList.add('faded');
-            } else {
-                document.body.classList.remove('faded');
-            }
-        });
-    </script>
 </body>
 </html>
