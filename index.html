@@ -4,140 +4,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zonkey</title>
+    <title>Draggable Bubbles with Informative Squircles</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            height: 100vh;
+            background-color: black; /* Black background */
+            color: white;
+            font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            overflow: hidden;
-            position: relative;
-            flex-direction: column; /* Align items vertically */
+            opacity: 0; /* Start hidden for fade-in effect */
+            transition: opacity 1s ease-in; /* Fade-in transition */
         }
 
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.7;
-            width: 100px; /* Larger bubble size */
-            height: 100px; /* Larger bubble size */
-            background-color: #FF6347; /* Bubble color */
+        .fade-in {
+            opacity: 1; /* Fully visible after fade-in */
         }
 
         .glowing-text {
             font-size: 3em;
             font-weight: bold;
-            color: #00ffea;
+            color: white; /* White text */
             text-align: center;
-            cursor: pointer;
-            animation: glow 1.5s infinite;
-            position: relative;
-            z-index: 1;
+            animation: glow 1.5s infinite; /* Glowing effect */
         }
 
         @keyframes glow {
             0% {
-                text-shadow: 0 0 5px #00ffea;
+                text-shadow: 0 0 5px white;
             }
 
             50% {
-                text-shadow: 0 0 20px #00ffea;
+                text-shadow: 0 0 20px white;
             }
 
             100% {
-                text-shadow: 0 0 5px #00ffea;
+                text-shadow: 0 0 5px white;
             }
         }
 
-        .squircle-btn {
-            background-color: red; /* Red color */
-            color: white; /* Text color */
-            padding: 15px 30px;
-            border-radius: 50px; /* Squircle shape */
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Transparent shadow */
-            transition: all 0.3s ease;
-            margin-top: 20px; /* Space between text and button */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            width: 80px; /* Bubble size */
+            height: 80px; /* Bubble size */
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent bubble */
+            cursor: pointer; /* Pointer cursor on hover */
         }
 
-        .squircle-btn:hover {
-            background-color: darkred; /* Darker red on hover */
+        .squircle {
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+            border-radius: 50px; /* Squircle shape */
+            padding: 20px;
+            margin: 20px;
+            width: 300px; /* Width of squircle */
+            text-align: center; /* Center text */
+        }
+
+        .squircle img {
+            width: 100%; /* Full width image */
+            border-radius: 20px; /* Rounded corners for the image */
         }
     </style>
 </head>
 
 <body>
 
-    <div class="glowing-text" onclick="goToURL()">
-        Zonkey9070
+    <div class="glowing-text">
+        Draggable Bubbles and Informative Squircles
     </div>
 
-    <button class="squircle-btn" onclick="goToURL()">
-        Go to URL for more
-    </button>
+    <div class="squircle">
+        <img src="https://via.placeholder.com/300" alt="Image One">
+        <h3>Title One</h3>
+        <p>This is some informative text about the first topic.</p>
+    </div>
+
+    <div class="squircle">
+        <img src="https://via.placeholder.com/300" alt="Image Two">
+        <h3>Title Two</h3>
+        <p>This is some informative text about the second topic.</p>
+    </div>
+
+    <div class="squircle">
+        <img src="https://via.placeholder.com/300" alt="Image Three">
+        <h3>Title Three</h3>
+        <p>This is some informative text about the third topic.</p>
+    </div>
+
+    <!-- Bubbles -->
+    <div class="bubble" style="top: 100px; left: 100px;"></div>
+    <div class="bubble" style="top: 200px; left: 300px;"></div>
+    <div class="bubble" style="top: 300px; left: 500px;"></div>
 
     <script>
-        function goToURL() {
-            let url = prompt("Enter the URL to navigate to:", "https://example.com");
-            if (url) {
-                window.location.href = url;
-            }
-        }
+        function createCubes() {
+          const numCubes = 5; // Number of cubes
+          
+          for (let i = 0; i < numCubes; i++) {
+              const cube = document.createElement('div');
+              cube.className = 'cube';
+              
+              // Random initial position
+              cube.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+              cube.style.top = Math.random() * (window.innerHeight - 50) + 'px';
 
-        function createBubbles() {
-            const numBubbles = 10; // Number of bubbles
-            const bubbles = [];
+              // Random rotation speed
+              const speed = Math.random() * (10 - 5) + 5; // Speed between 5 and 10 seconds
+              cube.style.animationDuration = speed + 's';
 
-            for (let i = 0; i < numBubbles; i++) {
-                const bubble = document.createElement('div');
-                bubble.className = 'bubble';
-                document.body.appendChild(bubble);
+              document.body.appendChild(cube);
+          }
+      }
 
-                // Random initial position
-                bubble.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-                bubble.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+      function makeBubblesDraggable() {
+          const bubbles =       function makeBubblesDraggable() {
+          const bubbles = document.querySelectorAll('.bubble');
 
-                // Random velocity
-                bubble.velocityX = (Math.random() - 0.5) * 4; // Speed in X direction
-                bubble.velocityY = (Math.random() - 0.5) * 4; // Speed in Y direction
+          bubbles.forEach(bubble => {
+              bubble.addEventListener('mousedown', startDrag);
+              bubble.addEventListener('touchstart', startDrag); // For touch devices
+          });
 
-                bubbles.push(bubble);
-                animateBubble(bubble);
-            }
-        }
+          function startDrag(e) {
+              const bubble = e.target;
+              let shiftX = e.clientX - bubble.getBoundingClientRect().left;
+              let shiftY = e.clientY - bubble.getBoundingClientRect().top;
 
-        function animateBubble(bubble) {
-            function moveBubble() {
-                let posX = parseFloat(bubble.style.left);
-                let posY = parseFloat(bubble.style.top);
+              function moveAt(pageX, pageY) {
+                  bubble.style.left = pageX - shiftX + 'px';
+                  bubble.style.top = pageY - shiftY + 'px';
+              }
 
-                // Update position
-                posX += bubble.velocityX;
-                posY += bubble.velocityY;
+              function onMouseMove(e) {
+                  moveAt(e.pageX, e.pageY);
+              }
 
-                // Bounce off edges
-                if (posX <= 0 || posX >= window.innerWidth - 100) {
-                    bubble.velocityX *= -1; // Reverse direction on X
-                }
-                if (posY <= 0 || posY >= window.innerHeight - 100) {
-                    bubble.velocityY *= -1; // Reverse direction on Y
-                }
+              function onTouchMove(e) {
+                  moveAt(e.touches[0].pageX, e.touches[0].pageY);
+              }
 
-                bubble.style.left = posX + 'px';
-                bubble.style.top = posY + 'px';
+              document.addEventListener('mousemove', onMouseMove);
+              document.addEventListener('touchmove', onTouchMove);
 
-                requestAnimationFrame(moveBubble);
-            }
-            moveBubble();
-        }
+              bubble.onmouseup = function() {
+                  document.removeEventListener('mousemove', onMouseMove);
+                  bubble.onmouseup = null;
+              };
 
-        window.onload = createBubbles;
+              bubble.ontouchend = function() {
+                  document.removeEventListener('touchmove', onTouchMove);
+                  bubble.ontouchend = null;
+              };
+          }
+      }
+
+      window.onload = function() {
+          createCubes();
+          makeBubblesDraggable();
+          document.body.classList.add('fade-in'); // Add fade-in class to body
+      };
 
     </script>
 </body>
