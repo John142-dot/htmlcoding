@@ -24,22 +24,6 @@
             opacity: 0.7;
             width: 80px;
             height: 80px;
-            animation: bounce 10s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-150px) translateX(50px);
-            }
-            50% {
-                transform: translateY(0) translateX(100px);
-            }
-            75% {
-                transform: translateY(150px) translateX(-50px);
-            }
         }
 
         .glowing-text {
@@ -94,16 +78,16 @@
 </head>
 <body>
 
-    <div class="bubble" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
-    <div class="bubble" style="top: 20%; left: 30%; animation-delay: 1s;"></div>
-    <div class="bubble" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
-    <div class="bubble" style="top: 40%; left: 70%; animation-delay: 3s;"></div>
-    <div class="bubble" style="top: 50%; left: 90%; animation-delay: 4s;"></div>
-    <div class="bubble" style="top: 60%; left: 20%; animation-delay: 5s;"></div>
-    <div class="bubble" style="top: 70%; left: 40%; animation-delay: 6s;"></div>
-    <div class="bubble" style="top: 80%; left: 60%; animation-delay: 7s;"></div>
-    <div class="bubble" style="top: 20%; left: 80%; animation-delay: 8s;"></div>
-    <div class="bubble" style="top: 50%; left: 40%; animation-delay: 9s;"></div>
+    <div class="bubble" style="top: 10%; left: 10%;"></div>
+    <div class="bubble" style="top: 20%; left: 30%;"></div>
+    <div class="bubble" style="top: 30%; left: 50%;"></div>
+    <div class="bubble" style="top: 40%; left: 70%;"></div>
+    <div class="bubble" style="top: 50%; left: 90%;"></div>
+    <div class="bubble" style="top: 60%; left: 20%;"></div>
+    <div class="bubble" style="top: 70%; left: 40%;"></div>
+    <div class="bubble" style="top: 80%; left: 60%;"></div>
+    <div class="bubble" style="top: 20%; left: 80%;"></div>
+    <div class="bubble" style="top: 50%; left: 40%;"></div>
 
     <div class="glowing-text" onclick="goToURL()">
         Editable Glowing Text
@@ -127,19 +111,22 @@
 
         function animateBubbles() {
             const bubbles = document.querySelectorAll('.bubble');
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-
+            
             bubbles.forEach(bubble => {
-                let dx = Math.random() < 0.5 ? -1 : 1;
-                let dy = Math.random() < 0.5 ? -1 : 1;
+                let posX = Math.random() * window.innerWidth;
+                let posY = Math.random() * window.innerHeight;
+
+                let velocityX = (Math.random() - 0.5) * (2); // Adjust speed
+                let velocityY = (Math.random() - 0.5) * (2);
 
                 function moveBubble() {
-                    let rect = bubble.getBoundingClientRect();
-                    if (rect.left <= 0 || rect.right >= screenWidth) dx *= -1;
-                    if (rect.top <= 0 || rect.bottom >= screenHeight) dy *= -1;
+                    posX += velocityX;
+                    posY += velocityY;
 
-                    bubble.style.transform = `translate(${dx * (Math.random() * (2 - -2) + -2)}px, ${dy * (Math.random() * (2 - -2) + -2)}px)`;
+                    if (posX <= -80 || posX >= window.innerWidth) velocityX *= -1; // Reverse direction on X
+                    if (posY <= -80 || posY >= window.innerHeight) velocityY *= -1; // Reverse direction on Y
+
+                    bubble.style.transform = `translate(${posX}px, ${posY}px)`;
                     requestAnimationFrame(moveBubble);
                 }
                 moveBubble();
