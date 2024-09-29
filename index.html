@@ -24,8 +24,8 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            width: 80px; /* Increased size for bubbles */
-            height: 80px; /* Increased size for bubbles */
+            width: 80px; /* Size for bubbles */
+            height: 80px; /* Size for bubbles */
         }
 
         /* Glowing Text */
@@ -81,29 +81,30 @@
         // Function to create random speed and direction
         function getRandomDirection() {
             return {
-                x: Math.random() < 0.5 ? -1 : 1,
-                y: Math.random() < 0.5 ? -1 : 1,
-                speed: 0.5 + Math.random() * 1.5 // Slower random speed
+                x: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 1.5), // Slower random speed
+                y: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 1.5)  // Slower random speed
             };
         }
 
         // Initialize bubbles with random directions
         bubbles.forEach(bubble => {
             const direction = getRandomDirection();
-            let bubbleX = Math.random() * window.innerWidth;
-            let bubbleY = Math.random() * window.innerHeight;
+            let bubbleX = Math.random() * (window.innerWidth - 80);
+            let bubbleY = Math.random() * (window.innerHeight - 80);
 
             function animateBubble() {
                 // Update position
-                bubbleX += direction.x * direction.speed;
-                bubbleY += direction.y * direction.speed;
+                bubbleX += direction.x;
+                bubbleY += direction.y;
 
                 // Check for collisions with the edges and bounce
                 if (bubbleX <= 0 || bubbleX >= window.innerWidth - 80) {
                     direction.x *= -1; // Reverse X direction
+                    bubbleX = Math.max(0, Math.min(bubbleX, window.innerWidth - 80)); // Correct position to stay within bounds
                 }
                 if (bubbleY <= 0 || bubbleY >= window.innerHeight - 80) {
                     direction.y *= -1; // Reverse Y direction
+                    bubbleY = Math.max(0, Math.min(bubbleY, window.innerHeight - 80)); // Correct position to stay within bounds
                 }
 
                 // Apply new position
