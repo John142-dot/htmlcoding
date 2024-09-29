@@ -10,14 +10,12 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            height: 100vh; /* Full height for a single screen */
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden; /* Prevent scrolling */
             position: relative;
-            flex-direction: column; /* Stack elements vertically */
-            transition: background 0.5s ease; /* Smooth background transition */
         }
 
         /* Bubble Styles */
@@ -26,19 +24,25 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            animation: float 8s ease-in-out infinite; /* Smooth float effect */
+            animation: float 10s ease-in-out infinite; /* Animation for bubbles */
         }
 
         /* Keyframes for the float animation */
         @keyframes float {
             0% {
-                transform: translateY(0);
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-100px) translateX(30px); /* Move up and slightly to the right */
             }
             50% {
-                transform: translateY(-100vh); /* Move to the top of the screen */
+                transform: translateY(0) translateX(60px); /* Move back down */
+            }
+            75% {
+                transform: translateY(100px) translateX(-30px); /* Move down and slightly to the left */
             }
             100% {
-                transform: translateY(0); /* Return to the bottom */
+                transform: translateY(0) translateX(0); /* Return to the original position */
             }
         }
 
@@ -55,79 +59,90 @@
             color: #00ffea;
             text-align: center;
             cursor: pointer; /* Changes cursor to pointer for interactivity */
-            animation: glow 1.5s infinite; /* Glow animation */
-            margin-bottom: 20px; /* Space below the text */
+            animation: glow 1.5s infinite; /* Smooth glowing effect */
+            position: relative;
+            z-index: 1; /* Ensure it stays above the bubbles */
         }
 
         /* Glow Effect */
         @keyframes glow {
-            0% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #00ffea; }
-            50% { text-shadow: 0 0 20px #00ffea, 0 0 30px #00ffea, 0 0 50px #00ffea; }
-            100% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #00ffea; }
+            0% { text-shadow: 0 0 5px #00ffea; }
+            50% { text-shadow: 0 0 20px #00ffea; }
+            100% { text-shadow: 0 0 5px #00ffea; }
         }
 
-        /* Squircles */
-        .squircle {
+        /* Transparent Squircle Below Glowing Text */
+        .transparent-squircle {
+            position: absolute;
+            bottom: 60px; /* Adjust position */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50px; /* Squircle shape */
+            padding: 10px;
+            text-align: center;
+            z-index: 0; /* Ensure it’s below the glowing text */
+        }
+
+        /* Squircle Button */
+        .squircle-btn {
             background-color: white;
             color: #282c34;
-            padding: 10px;
-            border-radius: 20px; /* Rounded corners */
-            border: 2px solid red; /* Red outline */
-            text-align: center;
-            width: 200px; /* Width of squircles */
-            height: 60px; /* Height of squircles */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin: 10px 0; /* Margin between squircles */
+            padding: 15px 30px; /* Adjust for bigger button */
+            border-radius: 50px;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: absolute;
+            bottom: 20px; /* Position it near the bottom */
         }
 
-        /* Fade Effect for Scroll */
-        body:before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        /* For Bubbles at the Top and Bottom */
-        .bubble {
-            animation: bubble-float 10s linear infinite;
-        }
-
-        @keyframes bubble-float {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100vh); } /* Move to the top of the screen */
+        .squircle-btn:hover {
+            background-color: #00ffea;
+            color: #fff;
+            box-shadow: 0px 8px 20px rgba(0, 255, 234, 0.6);
         }
     </style>
 </head>
 <body>
 
-    <!-- Squircles Above Glowing Text -->
-    <div class="squircle">Script maker</div>
-    <div class="squircle">Lua coder</div>
-    
-    <!-- Glowing Text -->
-    <div class="glowing-text" onclick="window.location.href='https://yoururl.com'">Click for more</div>
-
     <!-- Bubbles -->
-    <div class="bubble" style="top: 0; left: 10%;"></div>
-    <div class="bubble" style="top: 0; left: 30%;"></div>
-    <div class="bubble" style="top: 0; left: 50%;"></div>
-    <div class="bubble" style="top: 0; left: 70%;"></div>
-    <div class="bubble" style="top: 0; left: 90%;"></div>
-    <div class="bubble" style="bottom: 0; left: 10%;"></div>
-    <div class="bubble" style="bottom: 0; left: 30%;"></div>
-    <div class="bubble" style="bottom: 0; left: 50%;"></div>
-    <div class="bubble" style="bottom: 0; left: 70%;"></div>
-    <div class="bubble" style="bottom: 0; left: 90%;"></div>
+    <div class="bubble" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="top: 20%; left: 30%; animation-delay: 1s;"></div>
+    <div class="bubble" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
+    <div class="bubble" style="top: 40%; left: 70%; animation-delay: 3s;"></div>
+    <div class="bubble" style="top: 50%; left: 90%; animation-delay: 4s;"></div>
+    <div class="bubble" style="top: 60%; left: 20%; animation-delay: 5s;"></div>
+    <div class="bubble" style="top: 70%; left: 40%; animation-delay: 6s;"></div>
+    <div class="bubble" style="top: 80%; left: 60%; animation-delay: 7s;"></div>
+    <div class="bubble" style="top: 20%; left: 80%; animation-delay: 8s;"></div>
+    <div class="bubble" style="top: 50%; left: 40%; animation-delay: 9s;"></div>
 
+    <!-- Glowing Text -->
+    <div class="glowing-text" onclick="goToURL()">
+        Editable Glowing Text
+    </div>
+
+    <!-- Transparent Squircle -->
+    <div class="transparent-squircle">
+        <span>Transparent Squircle Text</span>
+    </div>
+
+    <!-- Squircle Button -->
+    <button class="squircle-btn" onclick="goToURL()">
+        Click Me
+    </button>
+
+    <script>
+        // Function to navigate to a URL when the button or text is clicked
+        function goToURL() {
+            let url = prompt("Enter the URL to navigate to:", "https://example.com");
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    </script>
 </body>
-</html>
+        </html>
