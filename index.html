@@ -24,27 +24,8 @@
             background-color: #FF6347;
             border-radius: 50%;
             opacity: 0.7;
-            width: 80px; /* Size for bubbles */
-            height: 80px; /* Size for bubbles */
-        }
-
-        /* Glowing Text */
-        .glowing-text {
-            font-size: 3em; /* Size of the glowing text */
-            font-weight: bold;
-            color: #00ffea;
-            text-align: center;
-            cursor: pointer; /* Changes cursor to pointer for interactivity */
-            animation: glow 1.5s infinite; /* Smooth glowing effect */
-            position: absolute; /* Change to absolute for positioning */
-            z-index: 1; /* Ensure it stays above the bubbles */
-        }
-
-        /* Glow Effect */
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #00ffea; }
-            50% { text-shadow: 0 0 20px #00ffea; }
-            100% { text-shadow: 0 0 5px #00ffea; }
+            width: 60px; /* Size for bubbles */
+            height: 60px; /* Size for bubbles */
         }
     </style>
 </head>
@@ -63,7 +44,7 @@
     <div class="bubble"></div>
 
     <!-- Glowing Text -->
-    <div class="glowing-text" onclick="goToURL()" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="glowing-text" onclick="goToURL()">
         Editable Glowing Text
     </div>
 
@@ -81,30 +62,29 @@
         // Function to create random speed and direction
         function getRandomDirection() {
             return {
-                x: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 1.5), // Slower random speed
-                y: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 1.5)  // Slower random speed
+                x: Math.random() < 0.5 ? -1 : 1,
+                y: Math.random() < 0.5 ? -1 : 1,
+                speed: 1 + Math.random() * 2 // Random speed
             };
         }
 
         // Initialize bubbles with random directions
         bubbles.forEach(bubble => {
             const direction = getRandomDirection();
-            let bubbleX = Math.random() * (window.innerWidth - 80);
-            let bubbleY = Math.random() * (window.innerHeight - 80);
+            let bubbleX = Math.random() * window.innerWidth;
+            let bubbleY = Math.random() * window.innerHeight;
 
             function animateBubble() {
                 // Update position
-                bubbleX += direction.x;
-                bubbleY += direction.y;
+                bubbleX += direction.x * direction.speed;
+                bubbleY += direction.y * direction.speed;
 
                 // Check for collisions with the edges and bounce
-                if (bubbleX <= 0 || bubbleX >= window.innerWidth - 80) {
+                if (bubbleX <= 0 || bubbleX >= window.innerWidth - 60) {
                     direction.x *= -1; // Reverse X direction
-                    bubbleX = Math.max(0, Math.min(bubbleX, window.innerWidth - 80)); // Correct position to stay within bounds
                 }
-                if (bubbleY <= 0 || bubbleY >= window.innerHeight - 80) {
+                if (bubbleY <= 0 || bubbleY >= window.innerHeight - 60) {
                     direction.y *= -1; // Reverse Y direction
-                    bubbleY = Math.max(0, Math.min(bubbleY, window.innerHeight - 80)); // Correct position to stay within bounds
                 }
 
                 // Apply new position
