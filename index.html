@@ -34,7 +34,7 @@
             cursor: pointer;
             animation: glow 1.5s infinite;
             position: relative;
-            mix-blend-mode: normal; /* Prevent blending with the bubbles */
+            z-index: 2; /* Ensure it's above bubbles */
         }
 
         @keyframes glow {
@@ -53,24 +53,29 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 20px; /* Space between text and button */
-            mix-blend-mode: normal; /* Prevent blending with the bubbles */
+            z-index: 2; /* Ensure it's above bubbles */
         }
 
         .squircle-btn:hover {
             background-color: darkblue; /* New hover color */
+        }
+
+        .neon-green {
+            background-color: #39ff14; /* Neon green color */
+            box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14; /* Neon glow effect */
         }
     </style>
 </head>
 
 <body>
 
-    <img src="path/to/image.png" alt="Image above text" style="position: absolute; top: -50px;"/>
+    <img src="path/to/image.png" alt="Image above text" style="position: absolute; top: -50px; z-index: 1;" />
 
     <div class="glowing-text" onclick="goToURL()">
         Zonkey
     </div>
 
-    <button class="squircle-btn" onclick="goToURL()">
+    <button class="squircle-btn" id="infoButton" onclick="toggleNeon()">
         Info
     </button>
 
@@ -80,6 +85,11 @@
             if (url) {
                 window.location.href = url;
             }
+        }
+
+        function toggleNeon() {
+            const button = document.getElementById('infoButton');
+            button.classList.toggle('neon-green'); // Toggle neon green class
         }
 
         function createBubbles() {
@@ -98,9 +108,12 @@
                 bubble.style.width = bubbleSizes[i] + 'px';
                 bubble.style.height = bubbleSizes[i] + 'px';
 
+                // Set minimum Y position to avoid overlap with text and button
+                const minYPosition = window.innerHeight - (bubbleSizes[i] + 150); // Adjust this value as needed
+
                 // Random initial position
                 bubble.style.left = Math.random() * (window.innerWidth - bubbleSizes[i]) + 'px';
-                bubble.style.top = Math.random() * (window.innerHeight - bubbleSizes[i]) + 'px';
+                bubble.style.top = Math.random() * minYPosition + 'px'; // Ensure bubbles start below text and button
 
                 // Adjusted velocity for slower bubbles
                 bubble.velocityX = (Math.random() - 0.5) * (4 / 3); // Speed in X direction
