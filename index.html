@@ -36,18 +36,15 @@
             cursor: pointer;
             animation: glow 1.5s infinite;
             position: relative;
-            z-index: 1;
         }
 
         @keyframes glow {
             0% {
                 text-shadow: 0 0 5px #00ffea;
             }
-
             50% {
                 text-shadow: 0 0 20px #00ffea;
             }
-
             100% {
                 text-shadow: 0 0 5px #00ffea;
             }
@@ -67,7 +64,7 @@
         }
 
         .squircle-btn:hover {
-            background-color: darkred; /* Darker red on hover */
+            background-color: darkblue; /* New hover color */
         }
     </style>
 </head>
@@ -103,9 +100,9 @@
                 bubble.style.left = Math.random() * (window.innerWidth - 100) + 'px';
                 bubble.style.top = Math.random() * (window.innerHeight - 100) + 'px';
 
-                // Random velocity
-                bubble.velocityX = (Math.random() - 0.5) * 4; // Speed in X direction
-                bubble.velocityY = (Math.random() - 0.5) * 4; // Speed in Y direction
+                // Adjusted velocity for slower bubbles
+                bubble.velocityX = (Math.random() - 0.5) * (4 / 3); // Speed in X direction
+                bubble.velocityY = (Math.random() - 0.5) * (4 / 3); // Speed in Y direction
 
                 bubbles.push(bubble);
                 animateBubble(bubble);
