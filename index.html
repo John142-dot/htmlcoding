@@ -23,8 +23,6 @@
             position: absolute;
             border-radius: 50%;
             opacity: 0.7;
-            width: 100px; /* Larger bubble size */
-            height: 100px; /* Larger bubble size */
             background-color: #FF6347; /* Bubble color */
         }
 
@@ -36,17 +34,12 @@
             cursor: pointer;
             animation: glow 1.5s infinite;
             position: relative;
+            mix-blend-mode: normal; /* Prevent blending with the bubbles */
         }
 
         @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #00ffea;
-            }
-            50% {
-                text-shadow: 0 0 20px #00ffea;
-            }
-            100% {
-                text-shadow: 0 0 5px #00ffea;
+            0%, 50%, 100% {
+                text-shadow: none; /* No shadow */
             }
         }
 
@@ -58,9 +51,9 @@
             border: none;
             font-size: 1.5em;
             cursor: pointer;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Transparent shadow */
             transition: all 0.3s ease;
             margin-top: 20px; /* Space between text and button */
+            mix-blend-mode: normal; /* Prevent blending with the bubbles */
         }
 
         .squircle-btn:hover {
@@ -70,6 +63,8 @@
 </head>
 
 <body>
+
+    <img src="path/to/image.png" alt="Image above text" style="position: absolute; top: -50px;"/>
 
     <div class="glowing-text" onclick="goToURL()">
         Zonkey
@@ -88,23 +83,29 @@
         }
 
         function createBubbles() {
-            const numBubbles = 10; // Number of bubbles
-            const bubbles = [];
+            const numBubbles = 15; // Total number of bubbles
+            const bubbleSizes = [50, 50, 50, ...Array(12).fill(120)]; // Sizes for small and oversized bubbles
+
+            // Shuffle bubble sizes for randomness
+            bubbleSizes.sort(() => Math.random() - 0.5);
 
             for (let i = 0; i < numBubbles; i++) {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
                 document.body.appendChild(bubble);
 
+                // Set bubble size
+                bubble.style.width = bubbleSizes[i] + 'px';
+                bubble.style.height = bubbleSizes[i] + 'px';
+
                 // Random initial position
-                bubble.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-                bubble.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+                bubble.style.left = Math.random() * (window.innerWidth - bubbleSizes[i]) + 'px';
+                bubble.style.top = Math.random() * (window.innerHeight - bubbleSizes[i]) + 'px';
 
                 // Adjusted velocity for slower bubbles
                 bubble.velocityX = (Math.random() - 0.5) * (4 / 3); // Speed in X direction
                 bubble.velocityY = (Math.random() - 0.5) * (4 / 3); // Speed in Y direction
 
-                bubbles.push(bubble);
                 animateBubble(bubble);
             }
         }
@@ -119,10 +120,10 @@
                 posY += bubble.velocityY;
 
                 // Bounce off edges
-                if (posX <= 0 || posX >= window.innerWidth - 100) {
+                if (posX <= 0 || posX >= window.innerWidth - parseFloat(bubble.style.width)) {
                     bubble.velocityX *= -1; // Reverse direction on X
                 }
-                if (posY <= 0 || posY >= window.innerHeight - 100) {
+                if (posY <= 0 || posY >= window.innerHeight - parseFloat(bubble.style.height)) {
                     bubble.velocityY *= -1; // Reverse direction on Y
                 }
 
