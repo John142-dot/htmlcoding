@@ -57,11 +57,11 @@
         }
 
         .squircle-btn:hover {
-            background-color: darkblue; /* New hover color */
+            background-color: #ff4500; /* Lighter red on hover */
         }
 
         .neon-green {
-            background-color: #39ff14; /* Neon green color */
+            background-color: #39ff14 !important; /* Neon green color */
             box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14; /* Neon glow effect */
         }
     </style>
@@ -75,21 +75,23 @@
         Zonkey
     </div>
 
-    <button class="squircle-btn" id="infoButton" onclick="toggleNeon()">
+    <button class="squircle-btn" id="infoButton" onclick="handleInfoClick()">
         Info
     </button>
 
     <script>
         function goToURL() {
-            let url = prompt("Enter the URL to navigate to:", "https://cubixing.vercel.app/");
-            if (url) {
-                window.location.href = url;
-            }
+            window.location.href = "https://cubixing.vercel.app/"; // Direct navigation
         }
 
-        function toggleNeon() {
+        function handleInfoClick() {
             const button = document.getElementById('infoButton');
-            button.classList.toggle('neon-green'); // Toggle neon green class
+            
+            // Add neon green class to the button
+            button.classList.add('neon-green');
+            
+            // Direct navigation to a specific URL
+            window.location.href = "https://example.com"; // Replace with your desired URL
         }
 
         function createBubbles() {
