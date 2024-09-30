@@ -16,14 +16,14 @@
             align-items: center;
             overflow: hidden;
             position: relative;
-            flex-direction: column; /* Align items vertically */
+            flex-direction: column;
         }
 
         .bubble {
             position: absolute;
             border-radius: 50%;
             opacity: 0.7;
-            background-color: #FF6347; /* Bubble color */
+            background-color: #FF6347;
         }
 
         .glowing-text {
@@ -32,37 +32,31 @@
             color: #00ffea;
             text-align: center;
             cursor: pointer;
-            animation: glow 1.5s infinite;
+            text-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea; 
             position: relative;
-            z-index: 2; /* Ensure it's above bubbles */
-        }
-
-        @keyframes glow {
-            0%, 50%, 100% {
-                text-shadow: none; /* No shadow */
-            }
+            z-index: 2;
         }
 
         .squircle-btn {
-            background-color: red; /* Red color */
-            color: white; /* Text color */
+            background-color: red;
+            color: white;
             padding: 15px 30px;
-            border-radius: 50px; /* Squircle shape */
+            border-radius: 50px;
             border: none;
             font-size: 1.5em;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px; /* Space between text and button */
-            z-index: 2; /* Ensure it's above bubbles */
+            margin-top: 20px;
+            z-index: 2;
         }
 
         .squircle-btn:hover {
-            background-color: #ff4500; /* Lighter red on hover */
+            background-color: #ff4500; 
         }
 
         .neon-green {
-            background-color: #39ff14 !important; /* Neon green color */
-            box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14; /* Neon glow effect */
+            background-color: #39ff14 !important; 
+            box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14; 
         }
     </style>
 </head>
@@ -81,46 +75,31 @@
 
     <script>
         function goToURL() {
-            window.location.href = "https://cubixing.vercel.app/"; // Direct navigation
+            window.location.href = "https://cubixing.vercel.app/";
         }
 
         function handleInfoClick() {
             const button = document.getElementById('infoButton');
-            
-            // Add neon green class to the button
             button.classList.add('neon-green');
-            
-            // Direct navigation to a specific URL
-            window.location.href = "https://example.com"; // Replace with your desired URL
+            window.location.href = "https://example.com";
         }
 
         function createBubbles() {
-            const numBubbles = 15; // Total number of bubbles
-            const bubbleSizes = [50, 50, 50, ...Array(12).fill(120)]; // Sizes for small and oversized bubbles
-
-            // Shuffle bubble sizes for randomness
+            const numBubbles = 15; 
+            const bubbleSizes = [50, ...Array(12).fill(120)];
             bubbleSizes.sort(() => Math.random() - 0.5);
 
             for (let i = 0; i < numBubbles; i++) {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
                 document.body.appendChild(bubble);
-
-                // Set bubble size
                 bubble.style.width = bubbleSizes[i] + 'px';
                 bubble.style.height = bubbleSizes[i] + 'px';
-
-                // Set minimum Y position to avoid overlap with text and button
-                const minYPosition = window.innerHeight - (bubbleSizes[i] + 150); // Adjust this value as needed
-
-                // Random initial position
+                const minYPosition = window.innerHeight - (bubbleSizes[i] + 150);
                 bubble.style.left = Math.random() * (window.innerWidth - bubbleSizes[i]) + 'px';
-                bubble.style.top = Math.random() * minYPosition + 'px'; // Ensure bubbles start below text and button
-
-                // Adjusted velocity for slower bubbles
-                bubble.velocityX = (Math.random() - 0.5) * (4 / 3); // Speed in X direction
-                bubble.velocityY = (Math.random() - 0.5) * (4 / 3); // Speed in Y direction
-
+                bubble.style.top = Math.random() * minYPosition + 'px';
+                bubble.velocityX = (Math.random() - 0.5) * (4 / 3);
+                bubble.velocityY = (Math.random() - 0.5) * (4 / 3);
                 animateBubble(bubble);
             }
         }
@@ -129,17 +108,14 @@
             function moveBubble() {
                 let posX = parseFloat(bubble.style.left);
                 let posY = parseFloat(bubble.style.top);
-
-                // Update position
                 posX += bubble.velocityX;
                 posY += bubble.velocityY;
 
-                // Bounce off edges
                 if (posX <= 0 || posX >= window.innerWidth - parseFloat(bubble.style.width)) {
-                    bubble.velocityX *= -1; // Reverse direction on X
+                    bubble.velocityX *= -1; 
                 }
                 if (posY <= 0 || posY >= window.innerHeight - parseFloat(bubble.style.height)) {
-                    bubble.velocityY *= -1; // Reverse direction on Y
+                    bubble.velocityY *= -1; 
                 }
 
                 bubble.style.left = posX + 'px';
